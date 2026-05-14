@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>업무 프로세스 다이어그램</title>
+    <style>
+        :root {
+            --bg-primary: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+            --bg-secondary: #f8f9fa;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --card-border: rgba(255, 255, 255, 0.3);
+            --text-primary: #1a1a2e;
+            --text-secondary: #555;
+            --accent: linear-gradient(135deg, #1a73e8 0%, #1765cc 100%);
+            --shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+            --shadow-hover: 0 12px 48px rgba(31, 38, 135, 0.25);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        html[data-theme="dark"] {
+            --bg-primary: linear-gradient(135deg, #0f0f23 0%, #1a1a3f 100%);
+            --bg-secondary: #0a0a15;
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --accent: linear-gradient(135deg, #4a9eff 0%, #2d7ce8 100%);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: var(--transition);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+        }
+
+        .header a {
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .header a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-toggle {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.08);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-menu {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 0 20px;
+            position: sticky;
+            top: 70px;
+            z-index: 99;
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .nav-item {
+            padding: 14px 20px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 14px;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            transition: var(--transition);
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .nav-item:hover {
+            color: var(--text-primary);
+            background: rgba(26, 115, 232, 0.08);
+        }
+
+        .nav-item.active {
+            color: var(--text-primary);
+            border-bottom-color: #1a73e8;
+            font-weight: 600;
+        }
+
+        html[data-theme="dark"] .nav-item.active {
+            border-bottom-color: #4a9eff;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 40px;
+            background: var(--accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .diagram-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .diagram-card:hover {
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(26, 115, 232, 0.3);
+        }
+
+        svg {
+            width: 100%;
+            height: auto;
+            max-width: 800px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 24px;
+            }
+
+            .diagram-card {
+                padding: 20px;
+            }
+
+            .nav-menu {
+                padding: 0 10px;
+                gap: 2px;
+                top: 110px;
+            }
+
+            .nav-item {
+                padding: 12px 14px;
+                font-size: 12px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="dashboard.html">← 메인</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="테마 전환">☀️</button>
+    </div>
+
+    <div class="nav-menu">
+        <a href="dashboard.html" class="nav-item">📊 대시보드</a>
+        <a href="meeting-result.html" class="nav-item">📋 회의록</a>
+        <a href="chart.html" class="nav-item">📈 매출 현황</a>
+        <a href="diagram.html" class="nav-item active">🔄 업무 프로세스</a>
+        <a href="report.html" class="nav-item">📑 사이트 분석</a>
+    </div>
+
+    <div class="container">
+        <h1>🔄 업무 프로세스</h1>
+
+        <div class="diagram-card">
+            <svg viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- 배경 -->
+                <rect width="800" height="200" fill="transparent"/>
+
+                <!-- 화살표 마커 정의 -->
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#999"/>
+                    </marker>
+                </defs>
+
+                <!-- 첫 번째 화살표 -->
+                <line x1="170" y1="100" x2="200" y2="100" stroke="#999" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                <!-- 기획 (파스텔 핑크) -->
+                <g>
+                    <rect x="20" y="50" width="140" height="100" rx="15" ry="15" fill="#FFB3BA" stroke="#FF9DA3" stroke-width="2"/>
+                    <text x="90" y="105" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">기획</text>
+                </g>
+
+                <!-- 두 번째 화살표 -->
+                <line x1="370" y1="100" x2="400" y2="100" stroke="#999" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                <!-- 제작 (파스텔 노랑) -->
+                <g>
+                    <rect x="220" y="50" width="140" height="100" rx="15" ry="15" fill="#FFDFBA" stroke="#FFCF9E" stroke-width="2"/>
+                    <text x="290" y="105" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">제작</text>
+                </g>
+
+                <!-- 세 번째 화살표 -->
+                <line x1="570" y1="100" x2="600" y2="100" stroke="#999" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                <!-- 검토 (파스텔 초록) -->
+                <g>
+                    <rect x="420" y="50" width="140" height="100" rx="15" ry="15" fill="#BAFFC9" stroke="#A3FFB8" stroke-width="2"/>
+                    <text x="490" y="105" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">검토</text>
+                </g>
+
+                <!-- 네 번째 화살표 (아래쪽으로 꺾임) -->
+                <g>
+                    <!-- 수직 화살표 -->
+                    <line x1="290" y1="170" x2="290" y2="200" stroke="#999" stroke-width="2"/>
+                    <line x1="620" y1="150" x2="620" y2="170" stroke="#999" stroke-width="2"/>
+                    <line x1="290" y1="170" x2="620" y2="170" stroke="#999" stroke-width="2"/>
+                    <line x1="620" y1="170" x2="620" y2="200" stroke="#999" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <!-- 화살표 헤드 -->
+                    <polygon points="620,200 615,190 625,190" fill="#999"/>
+                </g>
+
+                <!-- 배포 (파스텔 파랑) - 아래쪽 -->
+                <g>
+                    <rect x="560" y="50" width="140" height="100" rx="15" ry="15" fill="#BAE1FF" stroke="#A3D5FF" stroke-width="2"/>
+                    <text x="630" y="105" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">배포</text>
+                </g>
+
+                <!-- 분석 (파스텔 보라) -->
+                <g>
+                    <rect x="640" y="50" width="140" height="100" rx="15" ry="15" fill="#E0BBE4" stroke="#D0A3D4" stroke-width="2"/>
+                    <text x="710" y="105" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">분석</text>
+                </g>
+
+                <!-- 배포와 분석 연결 화살표 -->
+                <line x1="700" y1="100" x2="730" y2="100" stroke="#999" stroke-width="2" marker-end="url(#arrowhead)"/>
+            </svg>
+        </div>
+    </div>
+
+    <script>
+        // 테마 초기화 및 토글
+        function initTheme() {
+            const saved = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', saved);
+            updateThemeButton(saved);
+        }
+
+        function updateThemeButton(theme) {
+            const button = document.getElementById('themeToggle');
+            button.textContent = theme === 'dark' ? '🌙' : '☀️';
+        }
+
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme') || 'light';
+            const next = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            updateThemeButton(next);
+        }
+
+        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+        initTheme();
+    </script>
+</body>
+</html>

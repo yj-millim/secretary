@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Start-Process \"C:\\\\Users\\\\kimye\\\\Desktop\\\\��ũ��-�ǽ�-20260514T101947Z-3-001\\\\��ũ��-�ǽ�\\\\index.html\")",
+      "WebFetch(domain:www.millim.in)",
+      "Bash(git init *)",
+      "Bash(git config *)",
+      "Bash(git remote *)",
+      "Bash(git branch *)",
+      "Bash(git add *)"
+    ]
+  }
+}

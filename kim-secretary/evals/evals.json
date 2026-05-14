@@ -1,0 +1,23 @@
+{
+  "skill_name": "kim-secretary",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "/김비서 명령어를 실행해서 오늘의 브리핑을 받고 싶어. 할 일 중에 오늘 마감인 항목이 있는지 확인해줘.",
+      "expected_output": "Today's briefing with tasks due today, schedule, and key metrics",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "/김비서를 실행해서 대시보드를 업데이트해줘. 매출 현황과 프로젝트 진행 상황을 최신으로 반영해야 해.",
+      "expected_output": "Dashboard update with latest sales data, project status, and task information",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "/김비서로 높은 우선순위의 긴급 항목들을 확인하고 싶어. 어떤 것들이 지금 바로 처리해야 하는 일인지 알려줘.",
+      "expected_output": "Urgent items list with high priority tasks and their deadlines",
+      "files": []
+    }
+  ]
+}
